@@ -1,9 +1,8 @@
 <?php
 namespace App\Services;
 
-use App\Models\Pos
 use App\Models\PostedJob;
-PostedJobuse Exception;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Symfony\Component\DomCrawler\Crawler;

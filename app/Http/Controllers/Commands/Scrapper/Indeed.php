@@ -2,13 +2,13 @@
 namespace App\Http\Controllers\Commands\Scrapper;
 
 use App\Http\Controllers\Controller;
-use App\Models\IndeedJob;
+use App\Models\PostedJob;
 use App\Services\IndeedScrapper;
 
 class Indeed extends Controller {
 
 	public static function fetchJobDetail() {
-		$jobs = IndeedJob::where('is_scrapped', 0)->orderBy('id', 'asc')->limit(10)->get();
+		$jobs = PostedJob::where('is_scrapped', 0)->orderBy('id', 'asc')->limit(10)->get();
 
 		if ($jobs->count() > 0) {
 			foreach ($jobs as $job) {

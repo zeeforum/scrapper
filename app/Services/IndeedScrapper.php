@@ -3,6 +3,7 @@ namespace App\Services;
 
 use App\Models\PostedJob;
 use Exception;
+use Illuminate\Http\Client\RequestException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Symfony\Component\DomCrawler\Crawler;
@@ -64,8 +65,9 @@ class IndeedScrapper extends Scrapper {
 
 		try {
 			$response = $this->scrap($searchUrl);
-		} catch (\Exception $e) {
-			throw new Exception($e->getMessage());
+		} catch (RequestException $e) {
+			// Don't need to throw exception just log it
+			return $e->getMessage();
 		}
 
 		if (config('settings.logs.indeedLogs'))
@@ -83,15 +85,23 @@ class IndeedScrapper extends Scrapper {
 		if ($jobId != '') {
 			$this->url .= '/viewjob?jk=' . $jobId;
 		} else {
-			throw new Exception('Invalid Job ID!');
+			return 'Invalid job id.';
 		}
 
 		try {
 			$response = $this->scrap();
-		} catch (\Exception $e) {
+		} catch (RequestException $e) {
 			if (config('settings.logs.indeedLogs'))
 				Log::info($e->getMessage());
-			throw new Exception($e->getMessage());
+
+			// If job not found then delete it from the database or We need to update in database so that next time it will not scrapped.
+			if ($e->getCode() === 404) {
+				PostedJob::where('job_id', $jobId)->update([
+					'is_scrapped' => 2,
+				]);
+			}
+
+			return;
 		}
 
 		return $this->parseJobDetail($jobId, $response);

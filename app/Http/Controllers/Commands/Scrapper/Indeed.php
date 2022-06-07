@@ -17,6 +17,7 @@ class Indeed extends Controller {
 					$scrapper->getJobDetail($job->job_id);
 					sleep(3);
 				} catch (\Exception $e) {
+					dd($e);
 					echo $e->getMessage();
 					exit();
 				}

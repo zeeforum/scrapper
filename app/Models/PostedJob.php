@@ -15,6 +15,7 @@ class PostedJob extends Model {
         'company_name',
         'location',
         'time_posted',
+        'country',
 	];
 
 }

@@ -18,6 +18,9 @@ class IndeedScrapper extends Scrapper {
 	// Total Jobs Saved
 	private $totalJobsSaved = 0;
 
+	// Set country for the URL
+	private static $country = '';
+
 	/**
 	 * Search for jobs against specific query
 	 *
@@ -25,8 +28,10 @@ class IndeedScrapper extends Scrapper {
 	 * @return \Illuminate\Http\JsonResponse
 	 */
 	public function search($url = '', $query = 'php', $fromage = '', $country = '') {
-		if ($country != '')
+		if ($country != '') {
 			$this->url = str_replace('www.', $country . '.', $this->url);
+			self::$country = $country;
+		}
 
 		if ($url == '') {
 			if ($query) {
@@ -98,7 +103,7 @@ class IndeedScrapper extends Scrapper {
 	 * @param string $response
 	 * @return \Illuminate\Http\JsonResponse
 	 */
-	private function parseJobs($response) {
+	private function parseJobs($response, $country = '') {
 		$jobs = [];
 
 		$crawler = new Crawler($response);
@@ -139,6 +144,7 @@ class IndeedScrapper extends Scrapper {
 					'job_id' => $job['id'],
 				], [
 					'job_web' => 'indeed',
+					'country' => self::$country,
 					'title' => $job['title'],
 					'company_name' => $job['company'],
 					'location' => $job['location'],
@@ -224,7 +230,7 @@ class IndeedScrapper extends Scrapper {
 		$job->rating = $jobDetailArr['rating'];
 		$job->description = $jobDetailArr['job_description'];
 
-		if (preg_match('/[0-9]+/', $job->salary_or_time))
+		if (preg_match('/[0-9]+/', $jobDetailArr['salary_or_time']))
 			$job->salary = $jobDetailArr['salary_or_time'];
 		else
 			$job->job_timing = $jobDetailArr['salary_or_time'];

@@ -19,6 +19,9 @@ class IndeedScrapper extends Scrapper {
 	// Total Jobs Saved
 	private $totalJobsSaved = 0;
 
+	// Total Jobs Updated
+	private $totalJobsUpdated = 0;
+
 	// Set country for the URL
 	private static $country = '';
 
@@ -78,7 +81,7 @@ class IndeedScrapper extends Scrapper {
 		if (config('settings.logs.indeedLogs'))
 			Log::info('END PARSING');
 
-		return $this->totalJobsSaved . ' Jobs Saved.';
+		return $this->totalJobsSaved . ' Jobs Saved.' . PHP_EOL . $this->totalJobsUpdated . ' Jobs Updated.' . PHP_EOL;
 	}
 
 	public function getJobDetail($jobId = '') {
@@ -150,7 +153,7 @@ class IndeedScrapper extends Scrapper {
 
 				$jobs[] = $job;
 
-				$bool = PostedJob::updateOrCreate([
+				$postedJobModel = PostedJob::updateOrCreate([
 					'job_id' => $job['id'],
 				], [
 					'job_web' => 'indeed',
@@ -161,8 +164,10 @@ class IndeedScrapper extends Scrapper {
 					'time_posted' => $job['time_posted'],
 				]);
 
-				if ($bool) {
+				if ($postedJobModel->wasRecentlyCreated) {
 					$this->totalJobsSaved++;
+				} else {
+					$this->totalJobsUpdated++;
 				}
 			});
 

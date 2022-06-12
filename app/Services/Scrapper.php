@@ -29,9 +29,9 @@ class Scrapper {
 		}
 
 		if (count($this->headers) > 0) {
-			$response = Http::withHeaders($this->headers)->get($url);
+			$response = Http::retry(2, 5)->timeout(0)->withHeaders($this->headers)->get($url);
 		} else {
-			$response = Http::retry(2, 5)->get($url);
+			$response = Http::retry(2, 5)->timeout(0)->get($url);
 		}
 
 		if (config('settings.logs.indeedLogs'))

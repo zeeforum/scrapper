@@ -17,8 +17,8 @@ return new class extends Migration
             $table->id();
             $table->string('tconst')->unique();
             $table->string('title_type')->nullable()->default(null)->index();
-            $table->text('primary_title')->nullable()->default(null)->index();
-            $table->text('original_title')->index();
+            $table->text('primary_title')->nullable()->default(null);
+            $table->text('original_title');
             $table->boolean('is_adult')->default(0);
             $table->integer('start_year')->nullable()->default(null)->index();
             $table->integer('end_year')->nullable()->default(null)->index();

@@ -40,6 +40,7 @@ class ImdbImporter {
 		if ($arr) {
 			$start_year = self::removeCharacters($arr[5]);
 			$end_year = self::removeCharacters($arr[6]);
+			$runtime_minutes = self::removeCharacters($arr[7]);
 
 			$dbArr = [
 				'tconst' => $arr[0],
@@ -49,7 +50,7 @@ class ImdbImporter {
 				'is_adult' => $arr[4],
 				'start_year' => $start_year > 0 ? $start_year : NULL,
 				'end_year' => $end_year > 0 ? $end_year : NULL,
-				'runtime_minutes' => self::removeCharacters($arr[7]),
+				'runtime_minutes' => $runtime_minutes > 0 ? $runtime_minutes : NULL,
 				'genres' => self::removeCharacters($arr[8]),
 				'created_at' => date('Y-m-d H:i:s'),
 				'updated_at' => date('Y-m-d H:i:s'),

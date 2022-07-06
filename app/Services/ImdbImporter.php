@@ -38,14 +38,17 @@ class ImdbImporter {
 
 	private static function save($arr) {
 		if ($arr) {
+			$start_year = self::removeCharacters($arr[5]);
+			$end_year = self::removeCharacters($arr[6]);
+
 			$dbArr = [
 				'tconst' => $arr[0],
 				'title_type' => self::removeCharacters($arr[1]),
 				'primary_title' => self::removeCharacters($arr[2]),
 				'original_title' => $arr[3],
 				'is_adult' => $arr[4],
-				'start_year' => self::removeCharacters($arr[5]),
-				'end_year' => self::removeCharacters($arr[6]),
+				'start_year' => $start_year > 0 ? $start_year : NULL,
+				'end_year' => $end_year > 0 ? $end_year : NULL,
 				'runtime_minutes' => self::removeCharacters($arr[7]),
 				'genres' => self::removeCharacters($arr[8]),
 				'created_at' => date('Y-m-d H:i:s'),

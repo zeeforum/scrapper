@@ -3,6 +3,7 @@
 use App\Http\Controllers\Commands\Scrapper\Indeed;
 use App\Models\IndeedJob;
 use App\Models\PostedJob;
+use App\Services\ImdbImporter;
 use Illuminate\Foundation\Inspiring;
 use Illuminate\Support\Facades\Artisan;
 
@@ -24,3 +25,9 @@ Artisan::command('inspire', function () {
 Artisan::command('indeed:jobdetail', function() {
     return Indeed::fetchJobDetail();
 })->purpose('Fetch Job Detail from Indeed and Save in Database');
+
+
+// Import IMDB Data
+Artisan::command('imdb:import', function() {
+    return ImdbImporter::readFile('data.tsv');
+});

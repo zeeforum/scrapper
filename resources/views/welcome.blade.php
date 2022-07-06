@@ -21,6 +21,6 @@
         </style>
     </head>
     <body class="antialiased">
-        <iframe src="https://noaman-ahmed.my.connect.aws/connect/ccp-v2/" width="400" height="800">
+        
     </body>
 </html>

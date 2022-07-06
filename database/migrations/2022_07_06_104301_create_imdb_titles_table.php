@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('imdb_titles', function (Blueprint $table) {
             $table->id();
-            $table->string('tconst')->unique();
+            $table->string('tconst')->index();
             $table->string('title_type')->nullable()->default(null)->index();
             $table->text('primary_title')->nullable()->default(null);
             $table->text('original_title');

@@ -28,6 +28,10 @@ Artisan::command('indeed:jobdetail', function() {
 
 
 // Import IMDB Data
-Artisan::command('imdb:import', function() {
-    return ImdbImporter::readFile('data.tsv');
+Artisan::command('imdb:import.title.basics', function() {
+    return ImdbImporter::readFile('title.basics.tsv');
+});
+
+Artisan::command('imdb:import.name.basics', function() {
+    return ImdbImporter::readFile('name.basics.tsv', 'name.basics');
 });

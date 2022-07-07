@@ -2,12 +2,13 @@
 namespace App\Services;
 
 use App\Models\ImdbTitle;
+use App\Models\ImdbName;
 
 class ImdbImporter {
 
 	private static $savedRecords = 0;
 
-	public static function readFile($fileName, $path = '') {
+	public static function readFile($fileName, $imdb_data = 'title.basics', $path = '') {
 		$isHeader = true;
 
 		if ($path === '')
@@ -28,7 +29,17 @@ class ImdbImporter {
 			$line = rtrim($line, "\r\n");
 			$values = preg_split("/\t+/", $line);
 			
-			self::save($values);
+			switch ($imdb_data) {
+				case 'title.basics':
+					self::saveImdbTitles($values);
+					break;
+				case 'name.basics':
+					self::saveImdbNames($values);
+					break;
+				default:
+					# code...
+					break;
+			}
 		}
 
 		fclose($file);
@@ -36,7 +47,7 @@ class ImdbImporter {
 		return self::$savedRecords . ' Records Inserted Successfully!';
 	}
 
-	private static function save($arr) {
+	private static function saveImdbTitles($arr) {
 		if ($arr) {
 			$start_year = self::removeCharacters($arr[5]);
 			$end_year = self::removeCharacters($arr[6]);
@@ -57,6 +68,30 @@ class ImdbImporter {
 			];
 
 			if (ImdbTitle::insert($dbArr)) {
+				self::$savedRecords++;
+			}
+		}
+	}
+
+	private static function saveImdbNames($arr) {
+		if ($arr) {
+			$birth_year = self::removeCharacters($arr[2]);
+			$death_year = self::removeCharacters($arr[3]);
+			$primary_profession = self::removeCharacters($arr[4]);
+			$known_for_titles = self::removeCharacters($arr[5]);
+
+			$dbArr = [
+				'nconst' => $arr[0],
+				'primary_name' => self::removeCharacters($arr[1]),
+				'birth_year' => $birth_year > 0 ? $birth_year : NULL,
+				'death_year' => $death_year > 0 ? $death_year : NULL,
+				'primary_profession' => $primary_profession != '' ? $primary_profession : NULL,
+				'known_for_titles' => $known_for_titles != '' ? $known_for_titles : NULL,
+				'created_at' => date('Y-m-d H:i:s'),
+				'updated_at' => date('Y-m-d H:i:s'),
+			];
+
+			if (ImdbName::insert($dbArr)) {
 				self::$savedRecords++;
 			}
 		}

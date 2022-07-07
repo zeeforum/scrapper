@@ -75,10 +75,10 @@ class ImdbImporter {
 
 	private static function saveImdbNames($arr) {
 		if ($arr) {
-			$birth_year = self::removeCharacters($arr[2]);
-			$death_year = self::removeCharacters($arr[3]);
-			$primary_profession = self::removeCharacters($arr[4]);
-			$known_for_titles = self::removeCharacters($arr[5]);
+			$birth_year = isset($arr[2]) ? self::removeCharacters($arr[2]) : 0;
+			$death_year = isset($arr[3]) ? self::removeCharacters($arr[3]) : 0;
+			$primary_profession = isset($arr[4]) ? self::removeCharacters($arr[4]) : '';
+			$known_for_titles = isset($arr[5]) ? self::removeCharacters($arr[5]) : '';
 
 			$dbArr = [
 				'nconst' => $arr[0],

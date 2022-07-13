@@ -48,7 +48,7 @@ class ImdbImporter {
 	}
 
 	private static function saveImdbTitles($arr) {
-		if ($arr) {
+		if ($arr && isset($arr[0]) && $arr[0] !== '') {
 			$start_year = self::removeCharacters($arr[5]);
 			$end_year = self::removeCharacters($arr[6]);
 			$runtime_minutes = self::removeCharacters($arr[7]);
@@ -74,7 +74,7 @@ class ImdbImporter {
 	}
 
 	private static function saveImdbNames($arr) {
-		if ($arr) {
+		if ($arr && isset($arr[0]) $arr[0] !== '') {
 			$birth_year = isset($arr[2]) ? self::removeCharacters($arr[2]) : 0;
 			$death_year = isset($arr[3]) ? self::removeCharacters($arr[3]) : 0;
 			$primary_profession = isset($arr[4]) ? self::removeCharacters($arr[4]) : '';

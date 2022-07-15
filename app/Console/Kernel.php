@@ -18,10 +18,34 @@ class Kernel extends ConsoleKernel
         // $schedule->command('inspire')->hourly();
 
         // Fetch Jobs From Indeed
-        $schedule->command('scrapper:indeed --query=php --fromage=7')->hourly();
-        $schedule->command('scrapper:indeed --query=php --fromage=7 --country=pk')->hourlyAt(5);
-        $schedule->command('scrapper:indeed --query=laravel --fromage=7')->hourlyAt(20);
-        $schedule->command('scrapper:indeed --query=laravel --fromage=7 --country=pk')->hourlyAt(40);
+        $schedule->command('scrapper:indeed --query=php --fromage=7')->daily();
+        $schedule->command('scrapper:indeed --query=laravel --fromage=7')->dailyAt('00:10');
+        $schedule->command('scrapper:indeed --query=react --fromage=7')->dailyAt('00:15');
+        $schedule->command('scrapper:indeed --query=vue --fromage=7')->dailyAt('00:20');
+        $schedule->command('scrapper:indeed --query=vuejs --fromage=7')->dailyAt('00:25');
+        $schedule->command('scrapper:indeed --query=reactnative --fromage=7')->dailyAt('00:30');
+        $schedule->command('scrapper:indeed --query=flutter --fromage=7')->dailyAt('00:35');
+
+        $countries_arr = [
+            '01' => 'pk', // Pakistan
+            '02' => 'se', // Sweden
+            '03' => 'au', // Austrailia
+            '04' => 'gb', // United Kingdom
+            '05' => 'ca', // Canada
+        ];
+        
+        if ($countries_arr) {
+            foreach ($countries_arr as $time => $country_code) {
+                $schedule->command('scrapper:indeed --query=php --fromage=7 --country=' . $country_code)->dailyAt($time . ':05');
+                $schedule->command('scrapper:indeed --query=laravel --fromage=7 --country=' . $country_code)->dailyAt($time . ':10');
+                $schedule->command('scrapper:indeed --query=react --fromage=7 --country=' . $country_code)->dailyAt($time . ':15');
+                $schedule->command('scrapper:indeed --query=vue --fromage=7 --country=' . $country_code)->dailyAt($time . ':20');
+                $schedule->command('scrapper:indeed --query=vuejs --fromage=7 --country=' . $country_code)->dailyAt($time . ':25');
+                $schedule->command('scrapper:indeed --query=reactnative --fromage=7 --country=' . $country_code)->dailyAt($time . ':30');
+                $schedule->command('scrapper:indeed --query=flutter --fromage=7 --country=' . $country_code)->dailyAt($time . ':35');
+            }
+        }
+
 
         // Fetch Job Details from Indeed
         $schedule->command('indeed:jobdetail')->everyFiveMinutes();

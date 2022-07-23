@@ -37,6 +37,9 @@ class ImdbImporter {
 				case 'name.basics':
 					self::saveImdbNames($values);
 					break;
+				case 'title.episode':
+					self::saveImdbNames($values);
+					break;
 				default:
 					# code...
 					break;

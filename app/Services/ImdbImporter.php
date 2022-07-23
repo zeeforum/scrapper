@@ -109,8 +109,8 @@ class ImdbImporter {
 			$dbArr = [
 				'tconst' => $arr[0],
 				'parent_tconst' => self::removeCharacters($arr[1]),
-				'season_number' => $season_number ?? NULL,
-				'episode_number' => $episode_number ?? NULL,
+				'season_number' => $season_number ?? 1,
+				'episode_number' => $episode_number ?? 1,
 				'created_at' => date('Y-m-d H:i:s'),
 				'updated_at' => date('Y-m-d H:i:s'),
 			];

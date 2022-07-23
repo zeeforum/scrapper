@@ -103,14 +103,14 @@ class ImdbImporter {
 
 	private static function saveImdbTitleEpisodes($arr) {
 		if ($arr && isset($arr[0]) && $arr[0] !== '') {
-			$season_number = isset($arr[2]) ? self::removeCharacters($arr[2]) : null;
-			$episode_number = isset($arr[3]) ? self::removeCharacters($arr[3]) : null;
+			$season_number = isset($arr[2]) ? self::removeCharacters($arr[2]) : 0;
+			$episode_number = isset($arr[3]) ? self::removeCharacters($arr[3]) : 0;
 
 			$dbArr = [
 				'tconst' => $arr[0],
 				'parent_tconst' => self::removeCharacters($arr[1]),
-				'season_number' => $season_number ?? 1,
-				'episode_number' => $episode_number ?? 1,
+				'season_number' => $season_number > 0 ? $season_number : 1,
+				'episode_number' => $episode_number > 0 ? $episode_number : 1,
 				'created_at' => date('Y-m-d H:i:s'),
 				'updated_at' => date('Y-m-d H:i:s'),
 			];

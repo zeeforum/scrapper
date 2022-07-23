@@ -78,7 +78,7 @@ class ImdbImporter {
 	}
 
 	private static function saveImdbNames($arr) {
-		if ($arr && isset($arr[0]) $arr[0] !== '') {
+		if ($arr && isset($arr[0]) && $arr[0] !== '') {
 			$birth_year = isset($arr[2]) ? self::removeCharacters($arr[2]) : 0;
 			$death_year = isset($arr[3]) ? self::removeCharacters($arr[3]) : 0;
 			$primary_profession = isset($arr[4]) ? self::removeCharacters($arr[4]) : '';
@@ -102,7 +102,7 @@ class ImdbImporter {
 	}
 
 	private static function saveImdbTitleEpisodes($arr) {
-		if ($arr && isset($arr[0]) $arr[0] !== '') {
+		if ($arr && isset($arr[0]) && $arr[0] !== '') {
 			$season_number = isset($arr[2]) ? self::removeCharacters($arr[2]) : null;
 			$episode_number = isset($arr[3]) ? self::removeCharacters($arr[3]) : null;
 

@@ -3,6 +3,7 @@ namespace App\Services;
 
 use App\Models\ImdbTitle;
 use App\Models\ImdbName;
+use App\Models\ImdbTitleEpisode;
 
 class ImdbImporter {
 
@@ -92,6 +93,26 @@ class ImdbImporter {
 			];
 
 			if (ImdbName::insert($dbArr)) {
+				self::$savedRecords++;
+			}
+		}
+	}
+
+	private static function saveImdbTitleEpisodes($arr) {
+		if ($arr && isset($arr[0]) $arr[0] !== '') {
+			$season_number = isset($arr[2]) ? self::removeCharacters($arr[2]) : null;
+			$episode_number = isset($arr[3]) ? self::removeCharacters($arr[3]) : null;
+
+			$dbArr = [
+				'tconst' => $arr[0],
+				'parent_tconst' => self::removeCharacters($arr[1]),
+				'season_number' => $season_number,
+				'episode_number' => $episode_number,
+				'created_at' => date('Y-m-d H:i:s'),
+				'updated_at' => date('Y-m-d H:i:s'),
+			];
+
+			if (ImdbTitleEpisode::insert($dbArr)) {
 				self::$savedRecords++;
 			}
 		}

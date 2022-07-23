@@ -35,3 +35,7 @@ Artisan::command('imdb:import.title.basics', function() {
 Artisan::command('imdb:import.name.basics', function() {
     return ImdbImporter::readFile('name.basics.tsv', 'name.basics');
 });
+
+Artisan::command('imdb:import.title.episodes', function() {
+    return ImdbImporter::readFile('title.episode.tsv');
+});
